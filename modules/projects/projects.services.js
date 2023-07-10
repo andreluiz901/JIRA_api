@@ -69,6 +69,7 @@ async function getAllProjects() {
 }
 
 async function createProject() {
+  
   try {
     const bodyData = JSON.stringify({
       "key": "TEST",  

@@ -1,34 +1,22 @@
 const fetch = require('node-fetch');
-const createHeader = require('../../services/jira');
-const envToken = process.env.TOKEN
-const envEmail = process.env.EMAIL
+const {createHeader, createFetch} = require('../../services/jira');
 const baseUrl = process.env.BASE_URL
 
 
-async function createFetch(method, issueId) {
-  const fetchResult = await fetch(`${baseUrl}${issueId}`, {
-  method: method,
-  headers: createHeader(),
-})
-  const data = await fetchResult.json()
-  return data
-};
-
-async function getIssue(method, issuedId) {
+async function getIssue(method, issueId) {
+  const url = `${baseUrl}issue/${issueId}`
   try {
-    const fetchData = await createFetch(method, issuedId)
-    return fetchData    
+    const data = await createFetch(url, method)
+    return data    
   } catch (error) {
     console.log('error: ', error)
   }
 };
 
-async function getAllIssues() {
+async function getAllIssues(method) {
+  const url = `${baseUrl}events`
   try {
-    const allUsersReturned = await fetch('https://aluizsilva.atlassian.net/rest/api/3/events', {
-      method:'GET',
-      headers:createHeader()
-    })
+    const allUsersReturned = await createFetch(url, method)
     const data = await allUsersReturned.json()
     return data
   } catch (error) {
@@ -36,7 +24,7 @@ async function getAllIssues() {
   }
 };
 
-async function createIssue() {
+async function createIssue(method, reqBody) {
   try {
     const bodyData = {
       "project": {"id":"10000"}
@@ -55,34 +43,23 @@ async function createIssue() {
 }
 
 // Rota para retonar todos os PROJETOS
-async function getAllProjects() {
+async function getAllProjects(method) {
   try {
-    const allProjects = await fetch('https://aluizsilva.atlassian.net/rest/api/3/project', {
-      method:'GET',
-      headers:createHeader()
-    })
-    const data = await allProjects.json()
+    const url = `${baseUrl}project`
+    const allProjects = await createFetch(url, method)
+    const data = allProjects
     return data
   } catch (error) {
     console.log('error: ', error)
   }
 }
 
-async function createProject() {
-  
+async function createProject(method, req) {
   try {
-    const bodyData = JSON.stringify({
-      "key": "TEST",  
-      "name": "Test",
-      "projectTypeKey": "business",
-      "leadAccountId": "70121:ad8ea697-9864-45b7-916c-553b5bbe74b2"
-    });
-    const createdProject = await fetch('https://aluizsilva.atlassian.net/rest/api/3/project', {
-      method: 'POST',
-      headers: createHeader(),
-      body: bodyData
-    });
-    const data = await createdProject.json()
+    console.log('req.body', req.body)
+    const url = `${baseUrl}project`
+    const createdProject = await createFetch(url, method, req.body)
+    const data = await createdProject
     return data
   } catch (error) {
     console.log('error: ', error)
@@ -92,4 +69,4 @@ async function createProject() {
 
 
 
-module.exports = {createFetch, getIssue, getAllIssues, createIssue, getAllProjects, createProject}
+module.exports = {getIssue, getAllIssues, createIssue, getAllProjects, createProject}

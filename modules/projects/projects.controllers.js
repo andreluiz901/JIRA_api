@@ -9,7 +9,8 @@ usersRouter.get('/issues', async (req, res) => {
 })
 
 usersRouter.get('/allIssues', async (req, res) => {
-    const response = await getAllIssues();
+    const {method} = req.body
+    const response = await getAllIssues(method);
     res.send({ message:`estes são os issues`, data:response})
 })
 
@@ -19,13 +20,14 @@ usersRouter.post('/createIssue', async (req, res) => {
 })
 
 usersRouter.get('/allProjects', async (req, res) => {
-    const {method, issueId} = req.body
-    const response = await getAllProjects();
+    const {method} = req.body
+    const response = await getAllProjects(method);
     res.send({ message:`estes são os projetos`, data:response })
 })
 
 usersRouter.post('/createProject', async (req,res) => {
-    const response = await createProject();
+    const {method} = req.body
+    const response = await createProject(method, req);
     res.send({ message:'criado novo projeto ', data:response})
 })
 

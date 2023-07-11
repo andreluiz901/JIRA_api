@@ -1,5 +1,8 @@
+const fetch = require('node-fetch');
 const envToken = process.env.TOKEN
 const envEmail = process.env.EMAIL
+
+
 
 function createHeader() {
     const header = {
@@ -13,4 +16,16 @@ function createHeader() {
     return header
 };
 
-module.exports = createHeader
+async function createFetch(url, method, {bodyData}) {
+  const fetchResult = await fetch(url, {
+  method: method,
+  headers: createHeader(),
+  body: bodyData
+})
+  console.log('fetchResult', fetchResult)
+  const data = await fetchResult.json()
+  console.log('data', data)
+  return data
+};
+
+module.exports = {createHeader, createFetch}

@@ -16,15 +16,13 @@ function createHeader() {
     return header
 };
 
-async function createFetch(url, method, {bodyData}) {
+async function createFetch(url, method, bodyData) {
   const fetchResult = await fetch(url, {
   method: method,
   headers: createHeader(),
   body: bodyData
 })
-  console.log('fetchResult', fetchResult)
   const data = await fetchResult.json()
-  console.log('data', data)
   return data
 };
 

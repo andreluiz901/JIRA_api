@@ -26,8 +26,7 @@ usersRouter.get('/allProjects', async (req, res) => {
 })
 
 usersRouter.post('/createProject', async (req,res) => {
-    const {method} = req.body
-    const response = await createProject(method, req);
+    const response = await createProject(req);
     res.send({ message:'criado novo projeto ', data:response})
 })
 

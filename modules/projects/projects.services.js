@@ -54,11 +54,11 @@ async function getAllProjects(method) {
   }
 }
 
-async function createProject(method, req) {
+async function createProject(req) {
   try {
-    console.log('req.body', req.body)
+    const bodyPayload = JSON.stringify(req.body)
     const url = `${baseUrl}project`
-    const createdProject = await createFetch(url, method, req.body)
+    const createdProject = await createFetch(url, 'POST', bodyPayload)
     const data = await createdProject
     return data
   } catch (error) {

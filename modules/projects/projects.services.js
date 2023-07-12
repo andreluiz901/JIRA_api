@@ -43,10 +43,10 @@ async function createIssue(method, reqBody) {
 }
 
 // Rota para retonar todos os PROJETOS
-async function getAllProjects(method) {
+async function getAllProjects() {
   try {
     const url = `${baseUrl}project`
-    const allProjects = await createFetch(url, method)
+    const allProjects = await createFetch(url, 'GET')
     const data = allProjects
     return data
   } catch (error) {
@@ -66,7 +66,17 @@ async function createProject(req) {
   }
 }
 
+async function deleteProject(projectId) {
+  try {
+    console.log(projectId)
+    const url = `${baseUrl}/project/${projectId}`
+    const deletedProject = await createFetch(url, 'DELETE')
+    return deletedProject
+  } catch (error) {
+    console.log('error: ', error)
+  }
+}
 
 
 
-module.exports = {getIssue, getAllIssues, createIssue, getAllProjects, createProject}
+module.exports = {getIssue, getAllIssues, createIssue, getAllProjects, createProject, deleteProject}

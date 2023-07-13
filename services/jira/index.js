@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const envToken = process.env.TOKEN
 const envEmail = process.env.EMAIL
+const baseUrl = process.env.BASE_URL
 
 
 
@@ -16,7 +17,8 @@ function createHeader() {
     return header
 };
 
-async function createFetch(url, method, bodyData) {
+async function createFetch(urlComplement, method, bodyData) {
+  const url = `${baseUrl}${urlComplement}`
   const fetchResult = await fetch(url, {
   method: method,
   headers: createHeader(),

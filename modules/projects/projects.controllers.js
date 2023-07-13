@@ -1,25 +1,6 @@
 const express = require('express');
 const usersRouter = express.Router();
-const {getIssue, getAllIssues, createIssue, getAllProjects, createProject, deleteProject} = require('./projects.services')
-
-// Rotas de Issues
-usersRouter.get('/issues', async (req, res) => {
-    const {method, issueId} = req.body
-    const response = await getIssue(method, issueId);
-    res.send({ message:`este é o issue  ${issueId} `, data:response })
-})
-
-usersRouter.get('/allIssues', async (req, res) => {
-    const {method} = req.body
-    const response = await getAllIssues(method);
-    res.send({ message:`estes são os issues`, data:response})
-})
-
-usersRouter.post('/createIssue', async (req, res) => {
-    const response = await createIssue();
-    res.send({ message:`você cadastrou os issues`, data:response})
-})
-
+const {getAllProjects, createProject, deleteProject} = require('./projects.services')
 
 // Rotas de Projetos
 usersRouter.get('/allProjects', async (req, res) => {
@@ -35,7 +16,7 @@ usersRouter.post('/createProject', async (req,res) => {
 usersRouter.delete('/deleteProject', async (req, res) => {
     const {projectId} = req.body
     const response = await deleteProject(projectId);
-    res.send({ message: `Deletando o projeto`, data:response})
+    res.send({ message: `Deletando o projeto ${projectId}`, data:response})
 })
 
 module.exports = usersRouter;
